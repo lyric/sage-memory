@@ -3,7 +3,7 @@ Updated: 2026-02-06
 
 ## What Is This
 
-The core PAI/Sage personal AI infrastructure system. Skills, workflows, tools, templates, and rules that power the dev assistant. Formerly PAI-config, becoming sage-core as the foundational building block system.
+The core Sage personal AI infrastructure system. Skills, workflows, tools, templates, and rules that power the dev assistant.
 
 ## Architecture
 

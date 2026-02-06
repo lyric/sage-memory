@@ -12,7 +12,7 @@ Updated: 2026-02-06
 
 | Project | Path | Stack | Status | Context |
 |---------|------|-------|--------|---------|
-| sage-core | ~/src/PAI-config | TypeScript/bun | Active | projects/sage-core/PROJECT.md |
+| sage-core | ~/src/sage-core | TypeScript/bun | Active | projects/sage-core/PROJECT.md |
 
 ## Quick Links
 
