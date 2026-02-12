@@ -1,5 +1,5 @@
 # Sage Memory Router
-Updated: 2026-02-06
+Updated: 2026-02-12
 
 ## Active Work
 
@@ -13,6 +13,7 @@ Updated: 2026-02-06
 | Project | Path | Stack | Status | Context |
 |---------|------|-------|--------|---------|
 | sage-core | ~/src/sage-core | TypeScript/bun | Active | projects/sage-core/PROJECT.md |
+| mo-core | ~/src/mo-core | TypeScript/Node 22+/pnpm | Active | projects/mo-core/PROJECT.md |
 
 ## Quick Links
 
