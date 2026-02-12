@@ -12,6 +12,10 @@
   - Added: 2026-02-10 (during: langfuse-input-output)
   - Notes: OTEL plugin imports `registerLogTransport` from `mo/plugin-sdk` which resolves to a separate module instance under jiti. Fix: pass through `MoPluginServiceContext` like we did for `onDiagnosticEvent`.
 
+- **hosted-server-ready** — Make mo-core ready to run as a hosted server (multi-tenant, cloud deployment, not just local/self-hosted gateway)
+  - Tags: infra, hosting, deployment
+  - Added: 2026-02-10
+
 ## Parked
 
 ## Promoted
