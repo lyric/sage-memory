@@ -6,6 +6,28 @@ To add a reference: "add ~/src/xyz as a reference for [what it's good for]"
 
 ---
 
+## pi-mono
+
+- **Path**: `~/src/other/upstream/pi-mono`
+- **Tags**: agents, ai, llm, runtime, tools, tui, coding-agent, multi-provider, pi, upstream, typescript
+- **Stack**: TypeScript / npm workspaces / biome
+- **What**: Pi monorepo — unified multi-provider LLM API, agent runtime, coding agent CLI, TUI library. Mo's core `@mariozechner/pi-*` dependencies come from here.
+
+**Key Files & Dirs**:
+- `packages/ai/` — `@mariozechner/pi-ai`: Unified LLM API (OpenAI, Anthropic, Google, etc.)
+- `packages/agent/` — `@mariozechner/pi-agent-core`: Agent runtime with tool calling and state management
+- `packages/coding-agent/` — `@mariozechner/pi-coding-agent`: Interactive coding agent CLI (Pi itself)
+- `packages/tui/` — `@mariozechner/pi-tui`: Terminal UI with differential rendering
+- `packages/web-ui/` — `@mariozechner/pi-web-ui`: Web components for AI chat interfaces
+- `packages/mom/` — `@mariozechner/pi-mom`: Slack bot delegating to Pi coding agent
+- `packages/pods/` — `@mariozechner/pi-pods`: vLLM GPU pod management CLI
+- `AGENTS.md` — Project rules for humans and agents
+- `packages/coding-agent/examples/extensions/` — Extension examples (custom providers)
+
+**Good for**: Understanding Mo's upstream agent runtime, LLM provider abstraction, tool-calling internals, TUI rendering, Pi extension system. Essential reference when debugging or extending pi-embedded-runner behavior in mo-core.
+
+---
+
 ## clawdbot
 
 - **Path**: `~/src/other/examples/clawdbot`
