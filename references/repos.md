@@ -24,6 +24,17 @@ To add a reference: "add ~/src/xyz as a reference for [what it's good for]"
 - `AGENTS.md` — Project rules for humans and agents
 - `packages/coding-agent/examples/extensions/` — Extension examples (custom providers)
 
+**Online Resources**:
+- [Pi docs + package directory](https://shittycodingagent.ai/packages) — browse extensions, skills, themes; install from npm or git
+- [Extensions docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/extensions.md) — extension API, lifecycle events, custom tools, TUI rendering
+- [Extension examples](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent/examples/extensions) — todo, sandbox, plan-mode, permission-gate, doom-overlay, custom providers
+- [awesome-pi-agent](https://github.com/qualisero/awesome-pi-agent) — community curated list of extensions, skills, hooks, tools
+- [DeepWiki: pi-mono](https://deepwiki.com/badlogic/pi-mono) — AI-generated deep documentation of the codebase
+- [Pi: The Minimal Agent Within OpenClaw](https://lucumr.pocoo.org/2026/1/31/pi/) — Armin Ronacher's writeup on Pi's architecture
+- [Anatomy of Pi coding agent](https://medium.com/@shivam.agarwal.in/agentic-ai-pi-anatomy-of-a-minimal-coding-agent-powering-openclaw-5ecd4dd6b440) — deep dive on how Pi powers Mo/OpenClaw
+- [hjanuschka/shitty-extensions](https://github.com/hjanuschka/shitty-extensions) — community extensions collection
+- [Discord](https://discord.com/invite/3cU7Bz4UPx) — Pi community, package discovery
+
 **Good for**: Understanding Mo's upstream agent runtime, LLM provider abstraction, tool-calling internals, TUI rendering, Pi extension system. Essential reference when debugging or extending pi-embedded-runner behavior in mo-core.
 
 ---
