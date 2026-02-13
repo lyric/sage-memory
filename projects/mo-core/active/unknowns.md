@@ -7,8 +7,11 @@ Gaps and questions that need resolving before planning.
 ## Technical Unknowns
 
 - [ ] How does mo-core pull in gtd-mo-core? (extraDirs config, git submodule, npm package, workspace link?)
-- [ ] Per-user GTD root path convention on server — `~/.mo/gtd/<userId>/`? agent data dir? configurable?
 - [ ] Phase 2 sync — how users view/edit from phone/web when files live on server
+
+## Resolved
+
+- [x] Per-user GTD root → `~/.mo/gtd/` — each user has their own `~/`, same as sessions/config/credentials. No multi-tenant path routing needed.
 
 ## Resolved
 
