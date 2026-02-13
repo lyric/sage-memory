@@ -3,6 +3,11 @@ Updated: 2026-02-12
 
 ## Active Work
 
+### mo-core — GTD Skills
+- **Phase**: Exploring
+- **Last session**: 2026-02-13
+- **Resume**: projects/mo-core/active/exploration.md
+
 ### sage-core — sage-memory
 - **Phase**: Building
 - **Last session**: 2026-02-06
