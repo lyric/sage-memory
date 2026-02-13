@@ -186,8 +186,9 @@ These are comprehensive GTD-for-Claude-skills guides generated from NotebookLM. 
 - Conversation facilitation (prompts, nudges, review walkthroughs)
 - Works standalone with Claude Code/Cursor (no plugin runtime needed)
 
-### Open Questions (remaining)
+### Final Decisions (2026-02-13, session 3)
 
-- How does mo-core pull in gtd-mo-core? (extraDirs, submodule, npm package?)
-- Per-user GTD root path convention on server?
-- Phase 2 sync: how users view/edit from phone/web when files live on server?
+- **Integration**: Private repo, no npm publish. Same extension structure as existing mo-core plugins. Clone alongside mo-core, reference via Mo plugin config. For standalone use, clone anywhere — skills/ works with Claude Code/Cursor.
+- **Phase 2 sync**: Mo IS the interface — users interact via channels. Local users browse `~/.mo/gtd/` directly. Mo UI integration later.
+- **Daily notes**: Part of `~/.mo/gtd/` file structure, inspectable/editable directly. Mo UI integration deferred.
+- **All unknowns resolved. Ready for planning.**

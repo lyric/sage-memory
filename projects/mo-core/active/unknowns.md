@@ -6,12 +6,14 @@ Gaps and questions that need resolving before planning.
 
 ## Technical Unknowns
 
-- [ ] How does mo-core pull in gtd-mo-core? (extraDirs config, git submodule, npm package, workspace link?)
-- [ ] Phase 2 sync — how users view/edit from phone/web when files live on server
+*(all resolved)*
 
 ## Resolved
 
 - [x] Per-user GTD root → `~/.mo/gtd/` — each user has their own `~/`, same as sessions/config/credentials. No multi-tenant path routing needed.
+- [x] Mo-core integration → Private repo, no npm publish. Same extension structure as existing plugins (package.json + mo.plugin.json + index.ts + skills/). Clone alongside, reference via Mo config (plugin path). No submodules, no workspace coupling.
+- [x] Phase 2 sync → Mo IS the interface. Users interact via channels (Telegram/web/etc). Mo reads/writes files on server. Local machine users can browse `~/.mo/gtd/` directly (Obsidian, VS Code, etc). Daily notes and direct editing supported now; Mo UI integration later.
+- [x] Daily notes → Part of `~/.mo/gtd/` file structure. Inspectable/editable directly for now. Mo UI integration deferred.
 
 ## Resolved
 
