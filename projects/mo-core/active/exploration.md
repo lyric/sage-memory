@@ -115,12 +115,51 @@ These are comprehensive GTD-for-Claude-skills guides generated from NotebookLM. 
 - **gtd-references/** — Official David Allen Company setup guide PDFs (Todoist, Trello, M365, Google Apps, Paper), GTD book reference PDF, LifeDev cheatsheet.
 - **obsidian-livesync** (cloned to `src/other/examples/`) — Obsidian sync plugin using CouchDB/PouchDB/WebRTC. Relevant for understanding Obsidian vault internals. Key finding: **no exposed REST API** — vault interaction is direct filesystem (markdown files) or CouchDB if LiveSync is configured. For GTD skills, direct file read/write is the simplest path.
 
-### Open Questions
+### Key Decisions (2026-02-13)
 
-- What GTD stages need skills? (capture/inbox, clarify/process, organize, reflect/review, engage — all?)
-- Should mind-sweep move into gtd-mo-core or remain bundled in mo-core?
-- What makes this "usable without mo-core"? (Claude Code skill? standalone CLI? plain markdown docs anyone can use?)
-- Should this be pure SKILL.md files or hybrid plugin (skills + TypeScript runtime)?
-- How should skills interact with the vault? (direct file read/write seems natural since it's local markdown)
-- How will mo-core bundle these? (git submodule? npm package? config extraDirs? workspace package?)
-- User mentioned "reference info" to include — what is it?
+- **mind-sweep moves into gtd-mo-core** — it's part of the integrated GTD system, not a standalone skill
+- **Onboarding skill needed** — set up basic dirs/structure for new users
+- **This is a process/methodology the agent follows**, not just tools — GTD as an operating procedure to keep things in order
+- **Not tied to Obsidian** — start with markdown files (inspectable, portable) but storage is swappable. Will likely move to db + RAG in the near term. Obsidian-compatible but not Obsidian-dependent.
+- **Multi-platform** — phone, web, desktop access needed
+- **Multi-user** — separate areas per user (Lyric + son initially), each with their own GTD root
+- **Server-based** — will run on a Mo gateway server, users sync/view locally
+- **Low overhead iteration** — don't over-engineer upfront. Markdown files now, can swap storage later without rearchitecting the GTD logic itself.
+- **Transparency matters** — tucking things in a DB makes it hard to see what's captured. Plain files are inspectable.
+- **LiveSync/CouchDB is interesting for later** — could become the sync+API layer for non-Obsidian devices, but not now.
+
+### Immediate Needs (Priority Order)
+
+1. Get Lyric's own GTD workflow running — agent knows where things go, easy note capture, crons for reviews
+2. Agent-as-facilitator — the assistant proactively follows GTD methodology (nudges, reviews, routing)
+3. Server-based agent with local sync/view capability
+4. Onboard son to the server version with separate GTD area
+
+### Emerging Architecture
+
+**Phase 1 — Markdown + Skills (now):**
+- Markdown files in a per-user directory structure (the one already designed in Obsidian)
+- Skills teach the agent the GTD methodology and file conventions
+- Works locally AND on server (same skills, same file layout)
+- Each user gets their own GTD root dir
+- Cron-triggered review prompts (daily, weekly)
+- Onboarding skill creates the directory structure for new users
+
+**Phase 2 — Server + Multi-device (soon):**
+- Mo gateway on server, users access via phone/web/desktop channels
+- Files on server, viewable/editable locally (simple sync or remote access)
+- Son onboarded with separate GTD root
+
+**Phase 3 — Persistent storage + RAG (later):**
+- CouchDB/LiveSync as sync + API layer (serves non-Obsidian devices)
+- SQLite/vector DB for search across GTD data
+- DB-backed storage with markdown export/view for transparency
+- RAG for "what did I capture about X?" queries
+
+### Open Questions (remaining)
+
+- Repo structure for gtd-mo-core — skills-only? or hybrid plugin with onboarding/cron TypeScript?
+- How does mo-core pull in gtd-mo-core? (extraDirs, submodule, npm package?)
+- Cron implementation — mo-core already has `src/cron/`. How to wire GTD review crons?
+- Per-user GTD root — config key? `~/.mo/gtd/<userId>/`? Server-side path convention?
+- Sync strategy for phase 2 — git, rsync, CouchDB, or just server-side files accessed via Mo channels?
