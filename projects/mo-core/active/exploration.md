@@ -83,6 +83,38 @@ Located at `~/Library/Mobile Documents/com~apple~CloudDocs/src/other/examples/gt
 2. **cc-gtd** — David Allen GTD with Todoist/Calendar, context-based, energy-aware time blocking
 3. **gtd-cc/obsidian** — PARA + GTD integration, vault structure, knowledge + task linking
 
+### NotebookLM Reference Docs (10 files)
+
+Located at `~/Library/Mobile Documents/com~apple~CloudDocs/src/docs/gtd/focus/areas/GTD/reference/gtd from notebooklm/`:
+
+These are comprehensive GTD-for-Claude-skills guides generated from NotebookLM. Key takeaways:
+
+1. **"Architecting GTD Workflow Skills"** — Recommends 5 skills: Capture (mind sweep), Clarify & Organize (decision engine), Weekly Review (facilitator), Engage (context filter), Natural Planning (project launcher). Emphasizes "habits over features" and avoiding overcomplication.
+
+2. **"Claude Skills Implementation Guide"** — Deep technical blueprint. Three integration stages: understanding → implementation → behavior change. Detailed prompt-level logic for each skill. Mandates physical verb library for next actions (Call, Draft, Research, Buy, Email, Clean, Deliver, Review). Forbids ABC priority codes. Includes 2-minute rule "hard stop" pattern.
+
+3. **"Mind Sweep and Base System Guide"** — Professional + personal trigger categories. Physical sweep prompts. Base system setup: clarify actionability → 2-min rule → organize into lists (Projects, Calendar, Next Actions by context, Waiting For).
+
+4. **"Weekly Review"** — Three phases: Get Clear (empty inboxes), Get Current (review all lists, calendar, waiting-for, ensure every project has a next action), Get Creative (someday/maybe, new ideas).
+
+5. **"Five Stages of Getting Things Done"** — Canonical: Capture → Clarify → Organize → Reflect → Engage. Four-criteria engagement model: Context → Time → Energy → Priority.
+
+6. **"Overcoming GTD Implementation Pitfalls"** — 10 failure modes: piecemeal implementation, incomplete capture, decisiveness deficit, review neglect, tech obsession, overcomplication, arbitrary due dates, life-siloing, preemptive modification, motivational decay.
+
+7. **"Architecture of Action — Task Contexts"** — Starter set: @Calls, @Computer, @Office, @Home, @Errands, @Anywhere, @Agendas, @Waiting For.
+
+8. **"Incompletion Trigger List"** — Comprehensive professional + personal trigger categories for mind sweeps.
+
+9. **"Natural Planning Model"** — 5 steps: Purpose/Principles → Vision → Brainstorming → Organizing → Next Actions.
+
+10. **"Six Horizons of Focus"** — Ground (actions) → 10k (projects) → 20k (areas) → 30k (goals) → 40k (vision) → 50k (purpose).
+
+### Additional Reference Material
+
+- **purpose-and-values.md** — User's personal 50k ft doc: 9 vision dimensions, decision filter, core loves (music, spirituality, building, nature), Portugal move rationale.
+- **gtd-references/** — Official David Allen Company setup guide PDFs (Todoist, Trello, M365, Google Apps, Paper), GTD book reference PDF, LifeDev cheatsheet.
+- **obsidian-livesync** (cloned to `src/other/examples/`) — Obsidian sync plugin using CouchDB/PouchDB/WebRTC. Relevant for understanding Obsidian vault internals. Key finding: **no exposed REST API** — vault interaction is direct filesystem (markdown files) or CouchDB if LiveSync is configured. For GTD skills, direct file read/write is the simplest path.
+
 ### Open Questions
 
 - What GTD stages need skills? (capture/inbox, clarify/process, organize, reflect/review, engage — all?)
