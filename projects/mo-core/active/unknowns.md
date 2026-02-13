@@ -6,16 +6,17 @@ Gaps and questions that need resolving before planning.
 
 ## Technical Unknowns
 
-- [ ] Repo structure — pure skills (SKILL.md only) or hybrid plugin (skills + TypeScript for onboarding/cron)?
 - [ ] How does mo-core pull in gtd-mo-core? (extraDirs config, git submodule, npm package, workspace link?)
-- [ ] Per-user GTD root path convention — `~/.mo/gtd/<userId>/`? configurable?
-- [ ] Cron wiring — mo-core has `src/cron/`. Can skills declare cron schedules, or does the plugin need to register them?
+- [ ] Per-user GTD root path convention on server — `~/.mo/gtd/<userId>/`? agent data dir? configurable?
+- [ ] Phase 2 sync — how users view/edit from phone/web when files live on server
 
-## Design Unknowns
+## Resolved
 
-- [ ] How "usable without mo-core" works in practice — same SKILL.md files as Claude Code commands? Just the methodology docs?
-- [ ] Phase 2 sync — how do users view/edit GTD files from phone/web when files live on server?
-- [ ] How does onboarding work for a new user on the server? (agent creates dirs, or CLI command, or both?)
+- [x] Repo structure → Hybrid plugin: skills/ (SKILL.md) + TypeScript (file ops, cron, queries)
+- [x] Cron → Yes. Plugin registers crons that fire skills. Skills also invocable manually.
+- [x] Standalone → SKILL.md files work as Claude Code commands without Mo runtime
+- [x] Onboarding → TypeScript creates dirs deterministically; skill guides the conversation
+- [x] Son → Same server, own Mo system, separate GTD root, same base skills
 
 ## Resolved
 

@@ -156,10 +156,38 @@ These are comprehensive GTD-for-Claude-skills guides generated from NotebookLM. 
 - DB-backed storage with markdown export/view for transparency
 - RAG for "what did I capture about X?" queries
 
+### Additional Decisions (2026-02-13, session 2)
+
+- **Crons = yes** — GTD "triggers" + nudges. Crons fire skills that can also be invoked manually. "What's on the agenda today?" / "anything slipping on goals?" should just work as natural queries too.
+- **Hybrid plugin with TypeScript** — maximize determinism, minimize context bloat. Code handles mechanics (file ops, dir creation, cron registration, structured queries). Skills handle methodology. Less for the LLM to figure out each time.
+- **Standalone use case** — clone repo to work machine, use with Claude Code/Cursor without Mo. No crons, just manual skill invocation. SKILL.md files must be self-contained enough to work without the plugin runtime.
+- **Son's setup** — same server, own Mo system tailored to him, separate GTD root, same base skills. Improvements to base system benefit both users.
+
+### Emerging Skill Set
+
+| Skill | Role | Cron | Manual |
+|-------|------|------|--------|
+| `gtd-onboard` | Create dirs, explain system, initial mind sweep | — | yes |
+| `mind-sweep` | Capture all open loops (from mo-core) | — | yes |
+| `inbox-process` | Clarify + organize (decision engine, 2-min rule, routing) | — | yes |
+| `weekly-review` | Get Clear → Get Current → Get Creative | weekly | yes |
+| `daily-dashboard` | Morning engagement, context filter, what's due, energy-aware | daily | yes |
+| `planning-coach` | Natural Planning Model for projects | — | yes |
+
+**Plugin TypeScript layer handles:**
+- Dir structure creation (onboarding)
+- Cron registration (daily/weekly triggers)
+- File read/write helpers (deterministic, not LLM-guessed)
+- Per-user GTD root resolution
+- Structured queries (list next actions by context, overdue items, orphaned projects)
+
+**SKILL.md layer handles:**
+- GTD methodology (what to do, when, why)
+- Conversation facilitation (prompts, nudges, review walkthroughs)
+- Works standalone with Claude Code/Cursor (no plugin runtime needed)
+
 ### Open Questions (remaining)
 
-- Repo structure for gtd-mo-core — skills-only? or hybrid plugin with onboarding/cron TypeScript?
 - How does mo-core pull in gtd-mo-core? (extraDirs, submodule, npm package?)
-- Cron implementation — mo-core already has `src/cron/`. How to wire GTD review crons?
-- Per-user GTD root — config key? `~/.mo/gtd/<userId>/`? Server-side path convention?
-- Sync strategy for phase 2 — git, rsync, CouchDB, or just server-side files accessed via Mo channels?
+- Per-user GTD root path convention on server?
+- Phase 2 sync: how users view/edit from phone/web when files live on server?
