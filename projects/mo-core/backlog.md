@@ -16,6 +16,10 @@
   - Tags: infra, hosting, deployment
   - Added: 2026-02-10
 
+- **review-plugins-extensions** — Review Mo plugins and extensions — remove unused ones, review Pi marketplace for useful additions
+  - Tags: plugins, extensions, cleanup
+  - Added: 2026-02-13 (during: gtd-mo-core)
+
 ## Parked
 
 ## Promoted
