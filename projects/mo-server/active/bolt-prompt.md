@@ -17,7 +17,7 @@ Build a full-stack web application called **Mo** — a personal productivity sys
 - **Database**: Start with a simple file-based storage layer (markdown files on disk), but use a **storage adapter pattern** so we can swap to Postgres or CouchDB later without changing business logic. Define a `StorageAdapter` interface that all data access goes through.
 - **Real-time**: WebSocket (Socket.io) for live updates between server and clients
 - **State management**: Zustand for client state
-- **Mobile**: The app should be PWA-ready (service worker, offline support, installable). We'll wrap it in Capacitor later for native iOS/Android, so keep the UI responsive and mobile-friendly.
+- **Mobile**: The app should be PWA-ready (service worker, offline support, installable). We'll wrap it in Expo later for native iOS/Android, so keep the UI responsive and mobile-friendly. A clean REST API layer is critical — the API will be consumed by the web app, the Expo mobile app, AND an AI agent (Mo) that reads/writes the same data programmatically. Every UI action should go through the API, not talk to storage directly.
 
 ### UI Layout — Sidebar + Main Content
 
@@ -258,6 +258,17 @@ data/<userId>/gtd/
 - **Responsive breakpoints**: Mobile (<768px), Tablet (768-1024px), Desktop (>1024px)
 - **Empty states**: Friendly illustrations or messages when sections are empty ("No items due today — nice!" or "Inbox zero achieved")
 
+### API-First Architecture
+
+**This is critical**: The API is the single source of truth for all data access. The web frontend, the future Expo mobile app, and the Mo AI agent all consume the same REST API. No client should talk to storage directly.
+
+- Every UI action maps to an API call
+- The API must be complete enough that you could build the entire app with curl
+- Every endpoint returns consistent JSON (`{ data: ... }` on success, `{ error: "message", code: "ERROR_CODE" }` on failure)
+- All write endpoints return the updated resource
+- Pagination on list endpoints (`?limit=50&offset=0`)
+- The Mo AI agent will use these same endpoints to read/write files, check dashboard state, and manage tasks — so the API must be clean, well-documented, and self-sufficient
+
 ### API Endpoints
 
 ```
@@ -367,8 +378,9 @@ tags: [coding, frontend]
 Research Notion and Linear for layout inspiration...
 ```
 
+- **API-first, always** — The frontend is just one consumer of the API. The Expo mobile app and the Mo AI agent are the other two. If a feature can't be done through the API alone, the API is incomplete. All business logic lives in the server, not in React components.
 - **Security matters** — This will be exposed to the internet. Proper auth, CSRF, rate limiting, input sanitization, no path traversal in file API.
-- **Mobile-friendly from the start** — Responsive layout, touch targets (min 44px), swipe gestures. This will become a Capacitor app for iOS/Android.
+- **Mobile-friendly from the start** — Responsive layout, touch targets (min 44px), swipe gestures. This will become an Expo app for iOS/Android.
 - **The editor should feel like Notion** — People who don't know markdown should be able to use it without knowing they're writing markdown. The slash command menu, floating toolbar, and WYSIWYG rendering are key. Power users can toggle to raw markdown view.
 - **Page links are important** — The `[[page name]]` linking creates a knowledge graph. The backlinks panel shows connections. This is how GTD projects reference their next actions and how areas reference their goals.
 - **Tags drive the dashboard** — Tags like `#habit`, `@work`, `@home` are how the dashboard groups and filters items. Make tag rendering consistent between editor and dashboard.
