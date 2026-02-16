@@ -180,6 +180,40 @@ To add a reference: "add ~/src/xyz as a reference for [what it's good for]"
 
 ---
 
+## outline
+
+- **Path**: `~/src/other/examples/outline`
+- **Tags**: notes, wiki, knowledge-base, collaboration, crdt, yjs, prosemirror, react, koa, postgres, redis, self-hosted, multi-user, plugins, typescript
+- **Stack**: TypeScript / React 17 / Koa 3 / Sequelize / PostgreSQL / Redis / Yjs + Hocuspocus / Vite / Yarn 4
+- **What**: Open-source team wiki/knowledge base — ProseMirror WYSIWYG editor, real-time collaboration, multi-team, 20+ plugins, self-hosted
+
+**Key Files & Dirs**:
+- `app/` — React frontend (MobX state, scenes, stores, editor components)
+- `server/` — Koa backend (REST API, 50+ models, 270+ migrations, Bull queues)
+- `server/routes/api/` — REST API endpoints (documents, collections, users, teams)
+- `server/collaboration/` — Yjs + Hocuspocus real-time editing server
+- `server/models/` — 50+ Sequelize models
+- `server/policies/` — Cancan-style authorization
+- `shared/editor/` — ProseMirror schema, 40+ node types, marks, extensions
+- `plugins/` — 20+ integrations (Slack, Google, GitHub, OIDC, passkeys, webhooks, etc.)
+- `Dockerfile` + `docker-compose.yml` — Self-hosted deployment
+
+**Architecture Notes**:
+- Multi-team with roles (admin, member, guest, viewer) + collection-level permissions
+- Auth: OAuth (Slack/Google/GitHub), OIDC, email/password, WebAuthn/passkeys
+- Documents stored as Yjs binary state + ProseMirror JSON + plaintext (for search)
+- PostgreSQL full-text search
+- Real-time: Yjs CRDT via Hocuspocus (WebSocket) + Socket.io for presence/events
+- Plugin system: auth providers, API hooks, processors, 20+ built-in
+- No native mobile apps — responsive web only, basic PWA
+- Limited offline support (primarily online-focused)
+- REST API only (no GraphQL)
+- 50+ API endpoints, JWT auth, rate limiting
+
+**Good for**: Production-grade wiki/knowledge base architecture, ProseMirror editor integration, Yjs collaboration patterns, plugin system design, multi-user authorization patterns, Koa middleware patterns, Sequelize migration management
+
+---
+
 ## ~/src/other — Additional Repos (scan on demand)
 
 Other repos available for reference when relevant features come up. These may change; scan fresh when needed.
