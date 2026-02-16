@@ -205,6 +205,162 @@ Other repos available for reference when relevant features come up. These may ch
 | `examples/skills/awesome-claude-skills` | Curated Claude skills collection | skills, reference |
 | `examples/skills/claude-code-showcase` | Claude Code + MCP demos | showcase, mcp |
 
+## siyuan
+
+- **Path**: `~/src/other/examples/siyuan`
+- **Tags**: notes, editor, markdown, wysiwyg, sync, self-hosted, sqlite, electron, go, typescript, plugins, offline-first
+- **Stack**: Go 1.25 (backend/kernel) + TypeScript (frontend) / Electron / SQLite3 / Gin / Webpack / pnpm
+- **What**: Open-source note-taking app — Markdown WYSIWYG, block-based, self-hosted, plugin system, encrypted sync
+
+**Key Files & Dirs**:
+- `kernel/` — Go backend: HTTP server (Gin), 47 API handler files, 65+ model files, SQLite storage
+- `kernel/api/router.go` — 300+ API endpoint registrations
+- `kernel/model/` — Core business logic including sync, repo, conflict handling
+- `kernel/server/serve.go` — HTTP server with middleware
+- `app/src/protyle/` — WYSIWYG editor (Lute engine + custom Protyle UI)
+- `app/src/plugin/` — Plugin system (Petal API, JS/TS runtime loading)
+- `app/src/mobile/` — Mobile-specific UI
+- `app/electron/main.js` — Electron main process
+
+**Architecture Notes**:
+- Desktop-first: Electron wraps local Go HTTP server (port 6806)
+- Frontend is a web UI connecting to local REST API
+- Mobile apps (separate repos) embed same Go kernel via CGO/gomobile
+- 3 SQLite databases: main (blocks/notebooks), history (versions/undo), asset content (FTS)
+- Sync via Dejavu library: encrypted, supports official cloud, S3/MinIO, WebDAV, local dir
+- Single primary user + admin role (not true multi-user — all sessions share one workspace)
+- Docker self-hosting available but browser-only access
+
+**Good for**: Understanding a mature Go+TypeScript note app architecture, SQLite-based storage patterns, Markdown WYSIWYG editor implementation (Lute/Protyle), plugin system design, encrypted sync protocol, self-hosted deployment
+
+---
+
+## affine
+
+- **Path**: `~/src/other/examples/affine`
+- **Tags**: notes, editor, blocks, notion, collaboration, crdt, yjs, react, nestjs, graphql, postgres, self-hosted, mobile, capacitor, offline-first, typescript, rust
+- **Stack**: TypeScript + Rust / React 19 / NestJS / GraphQL / PostgreSQL / Prisma / Yjs (CRDT) / Vite / Electron / Capacitor / Yarn 4
+- **What**: Open-source Notion+Obsidian hybrid — block editor, canvas, real-time collaboration, CRDT-based, self-hosted
+
+**Key Files & Dirs**:
+- `blocksuite/` — Custom collaborative editor framework (CRDT-based, Lit web components)
+- `blocksuite/framework/store/` — Document storage & CRDT
+- `blocksuite/framework/sync/` — Synchronization protocol
+- `packages/backend/server/` — NestJS GraphQL API server
+- `packages/backend/server/schema.prisma` — Full database schema (~2789 lines)
+- `packages/backend/server/src/core/auth/` — Auth (JWT, OAuth, magic links)
+- `packages/backend/server/src/core/sync/gateway.ts` — WebSocket real-time sync
+- `packages/backend/server/src/core/storage/` — S3-compatible blob storage
+- `packages/frontend/core/` — Main React application (modules, components)
+- `packages/frontend/apps/web/` — Web app entry
+- `packages/frontend/apps/electron/` — Desktop app
+- `packages/frontend/apps/ios/` — iOS (Capacitor)
+- `packages/frontend/apps/android/` — Android (Capacitor)
+- `packages/common/nbstore/` — Local storage abstraction (IndexedDB/SQLite)
+- `packages/common/y-octo/` — Rust-native CRDT implementation
+
+**Architecture Notes**:
+- True multi-user with workspace-level roles (Owner, Manager, Member, Guest)
+- CRDT (Yjs) for conflict-free real-time collaboration
+- Local-first: IndexedDB (web) or SQLite (desktop) with cloud sync
+- Capacitor for iOS/Android (same React codebase)
+- PostgreSQL + Prisma for server, Redis for sessions/queue, S3 for blobs
+- Docker self-hosting with compose
+- Jotai for client state management
+- Plugin system in development (BlockSuite extension loader)
+
+**Good for**: Full-stack collaborative editor architecture, CRDT/Yjs patterns, Capacitor mobile deployment, NestJS+GraphQL server patterns, Prisma schema design, multi-user workspace permissions, self-hosted deployment, local-first with cloud sync
+
+---
+
+## obsidian-livesync
+
+- **Path**: `~/src/other/examples/obsidian-livesync`
+- **Tags**: sync, couchdb, pouchdb, webrtc, p2p, conflict-resolution, obsidian, typescript, svelte, offline-first, replication
+- **Stack**: TypeScript / Svelte 5 / PouchDB / CouchDB / esbuild
+- **What**: Obsidian plugin for real-time vault sync via CouchDB, S3/R2, or WebRTC P2P
+
+**Key Files & Dirs**:
+- `src/main.ts` — Plugin entry point
+- `src/modules/core/ModuleReplicator.ts` — Replication orchestration
+- `src/modules/core/ModuleReplicatorCouchDB.ts` — CouchDB sync
+- `src/modules/core/ModuleReplicatorMinIO.ts` — S3/R2 object storage sync
+- `src/modules/core/ModuleReplicatorP2P.ts` — WebRTC peer-to-peer sync
+- `src/modules/core/ReplicateResultProcessor.ts` — Incoming change processing
+- `src/modules/coreFeatures/ModuleConflictResolver.ts` — Conflict handling
+- `src/modules/coreObsidian/storageLib/StorageEventManager.ts` — Vault file watching
+- `docs/setup_own_server.md` — Self-hosted CouchDB setup
+
+**Architecture Notes**:
+- PouchDB ↔ Obsidian vault synchronizer
+- Three sync backends: CouchDB (primary), S3/MinIO/R2, WebRTC P2P
+- Conflict resolution: three-way merge via diff-match-patch for text, timestamp-based for binary
+- No REST API exposed — interacts via PouchDB replication protocol or S3 API
+- Chunk-based storage for large files
+- Path obfuscation support for privacy
+- Self-hosting: CouchDB in Docker, or serverless via object storage
+
+**Good for**: PouchDB/CouchDB replication patterns, conflict resolution algorithms (diff-match-patch three-way merge), multiple sync backend strategies, offline-first sync architecture, P2P WebRTC sync
+
+---
+
+## obsidian-remote
+
+- **Path**: `~/src/other/examples/obsidian-remote`
+- **Tags**: obsidian, docker, remote-desktop, vnc, self-hosted, kasmvnc
+- **Stack**: Docker / KasmVNC / Debian / Openbox / Bash
+- **What**: Runs Obsidian desktop app in Docker, accessible via web browser (VNC-based remote desktop)
+
+**Key Files & Dirs**:
+- `Dockerfile` — Multi-stage build, downloads Obsidian AppImage
+- `root/defaults/startwm.sh` — Starts Openbox + PulseAudio
+- `root/defaults/autostart` — Launches Obsidian with --no-sandbox
+- `root/etc/cont-init.d/50-config` — Password, timezone, permissions setup
+
+**Architecture Notes**:
+- Not a sync solution — literally runs Obsidian in a container and streams the UI via VNC
+- KasmVNC provides browser-based access (port 8080/8443)
+- Vault files mounted as Docker volumes at /vaults
+- Optional HTTP Basic Auth
+- Multi-arch (amd64 + arm64)
+- Good for accessing Obsidian from devices that can't run it natively
+
+**Good for**: Docker-based desktop app hosting pattern, KasmVNC setup, remote access to local-first apps. Limited relevance for mo-server (different approach to the problem)
+
+---
+
+## syncthing
+
+- **Path**: `~/src/other/examples/syncthing`
+- **Tags**: sync, p2p, decentralized, conflict-resolution, versioning, vector-clocks, go, protocol-buffers, file-sync
+- **Stack**: Go 1.25 / Protocol Buffers / LZ4 / SQLite
+- **What**: Decentralized P2P file sync with vector-clock conflict detection and block-level transfer
+
+**Key Files & Dirs**:
+- `lib/protocol/protocol.go` — BEP connection handling, message I/O
+- `lib/protocol/vector.go` — Vector clock logic for conflict detection
+- `lib/model/model.go` — Main sync state machine (~114KB)
+- `lib/model/folder_sendrecv.go` — Bidirectional sync logic (71KB, handles conflicts)
+- `lib/scanner/walk.go` — Filesystem scanning, block hashing (SHA256)
+- `lib/versioner/` — File versioning strategies (simple, trashcan, staggered)
+- `proto/bep/bep.proto` — Protocol Buffer definitions (BEP v1)
+- `lib/connections/` — Network connection management
+- `lib/discover/` — Peer discovery
+
+**Architecture Notes**:
+- BEP (Block Exchange Protocol): Index + Request/Response, block-level granularity
+- Vector clocks for causality tracking — each device has ShortID + counter
+- Conflict detection: if neither version dominates → conflict
+- Conflict resolution: (1) modification time (newest wins), (2) device ID as tiebreaker
+- Conflicts preserved as `.sync-conflict-YYYYMMDD-HHMMSS-deviceid.ext` — never destructive
+- Folder types: send-receive, send-only, receive-only, receive-encrypted
+- Versioning: pluggable strategies archive old versions before overwrite
+- Continuous sync via filesystem watcher + incremental IndexUpdate messages
+
+**Good for**: Vector clock conflict detection/resolution patterns, block-level sync protocol design, versioning strategies, decentralized P2P architecture, non-destructive conflict handling. Key reference for mo-server's sync/conflict approach.
+
+---
+
 <!--
 To add a new reference, append a section following this format:
 

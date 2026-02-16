@@ -1,7 +1,12 @@
 # Sage Memory Router
-Updated: 2026-02-12
+Updated: 2026-02-15
 
 ## Active Work
+
+### mo-server — Web/Mobile UI
+- **Phase**: Exploring
+- **Last session**: 2026-02-15
+- **Resume**: projects/mo-server/active/exploration.md
 
 ### mo-core — GTD Skills
 - **Phase**: Exploring
@@ -17,6 +22,7 @@ Updated: 2026-02-12
 
 | Project | Path | Stack | Status | Context |
 |---------|------|-------|--------|---------|
+| mo-server | ~/src/mo-server | TBD (prototyping) | Active | projects/mo-server/PROJECT.md |
 | sage-core | ~/src/sage-core | TypeScript/bun | Active | projects/sage-core/PROJECT.md |
 | mo-core | ~/src/mo-core | TypeScript/Node 22+/pnpm | Active | projects/mo-core/PROJECT.md |
 
