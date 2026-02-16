@@ -92,7 +92,21 @@ The main content area renders the selected view:
 - **JWT sessions**: Access token (short-lived, 15min) + refresh token (7 days, httpOnly cookie)
 - **Multi-user**: Each user has their own isolated data directory. No shared/team features.
 - **User settings**: Theme preference (light/dark/system), default view, timezone, sidebar collapsed state
-- **Security**: Rate limiting on auth endpoints, CSRF protection, secure headers (helmet), password hashing (argon2)
+- **Security**:
+  - Password hashing with argon2 (not bcrypt)
+  - Rate limiting on auth endpoints (express-rate-limit): 5 attempts per 15 min on login, 3 per hour on register
+  - CSRF protection (double-submit cookie pattern or csurf)
+  - Secure headers (helmet): HSTS, X-Content-Type-Options, X-Frame-Options, CSP
+  - HttpOnly + Secure + SameSite=Strict on refresh token cookie
+  - Input validation on every endpoint (zod schemas — validate and strip unknown fields)
+  - Path traversal protection on file API — resolve paths and verify they stay inside the user's data directory. Reject `..`, absolute paths, symlinks outside root.
+  - API authentication: Bearer JWT in Authorization header for web/Expo, **API keys** for the Mo agent (long-lived, scoped per user, revocable from settings). Both auth methods go through the same middleware.
+  - API keys: generated in Settings, shown once on creation, stored hashed (sha256), include user ID so they're scoped to that user's data. Format: `mo_<userId-prefix>_<random>`. The Mo agent authenticates with `Authorization: Bearer mo_...`
+  - Per-user data isolation enforced at the storage adapter level — a user can never access another user's files regardless of what path they send
+  - Request body size limits (1MB default, 10MB for file uploads)
+  - CORS: whitelist allowed origins (configurable via env var)
+  - Audit log: log auth events (login, failed login, register, TOTP setup) with IP and timestamp
+  - No sensitive data in error responses (don't leak file paths, stack traces, or user existence on login failure)
 
 #### 2. Today Dashboard
 
@@ -278,6 +292,10 @@ POST   /api/auth/refresh           — Refresh access token
 POST   /api/auth/verify-totp       — Verify TOTP during setup
 POST   /api/auth/logout            — Clear refresh cookie
 
+POST   /api/auth/api-keys          — Generate API key (for Mo agent / Expo app)
+DELETE /api/auth/api-keys/:id      — Revoke API key
+GET    /api/auth/api-keys          — List active API keys (names + last used, not the key itself)
+
 GET    /api/files/*path            — Read file content
 PUT    /api/files/*path            — Write file (with version check header)
 DELETE /api/files/*path            — Delete file
@@ -379,7 +397,7 @@ Research Notion and Linear for layout inspiration...
 ```
 
 - **API-first, always** — The frontend is just one consumer of the API. The Expo mobile app and the Mo AI agent are the other two. If a feature can't be done through the API alone, the API is incomplete. All business logic lives in the server, not in React components.
-- **Security matters** — This will be exposed to the internet. Proper auth, CSRF, rate limiting, input sanitization, no path traversal in file API.
+- **Security is non-negotiable** — This is internet-facing. Every endpoint must validate input (zod), check auth, enforce user isolation, and sanitize file paths. See the security checklist in the Auth section above.
 - **Mobile-friendly from the start** — Responsive layout, touch targets (min 44px), swipe gestures. This will become an Expo app for iOS/Android.
 - **The editor should feel like Notion** — People who don't know markdown should be able to use it without knowing they're writing markdown. The slash command menu, floating toolbar, and WYSIWYG rendering are key. Power users can toggle to raw markdown view.
 - **Page links are important** — The `[[page name]]` linking creates a knowledge graph. The backlinks panel shows connections. This is how GTD projects reference their next actions and how areas reference their goals.
