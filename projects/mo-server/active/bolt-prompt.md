@@ -108,6 +108,32 @@ The main content area renders the selected view:
   - Audit log: log auth events (login, failed login, register, TOTP setup) with IP and timestamp
   - No sensitive data in error responses (don't leak file paths, stack traces, or user existence on login failure)
 
+#### Observability (PostHog)
+
+Use **PostHog** for analytics, error tracking, and session replay — all in one platform. PostHog Cloud free tier covers our usage.
+
+**Frontend (`posthog-js`)**:
+- Initialize with project API key from env var (`VITE_POSTHOG_KEY`, `VITE_POSTHOG_HOST`)
+- **Session replay**: Enable to record user sessions for debugging. Mask all text inputs by default for privacy.
+- **Error autocapture**: Automatically captures uncaught exceptions and unhandled promise rejections with stack traces
+- **Analytics**: Track key events — `page_view`, `note_created`, `note_edited`, `dashboard_viewed`, `chat_message_sent`, `inbox_processed`, `habit_checked`
+- **Feature flags**: Wire up for future use (dark mode rollout, new features)
+- Identify users on login: `posthog.identify(userId, { email, username })`
+- Reset on logout: `posthog.reset()`
+
+**Backend (`posthog-node`)**:
+- Initialize PostHog client in server startup
+- **Error tracking**: Express error handler middleware that calls `posthog.captureException(error)` — add this AFTER all route handlers
+- **Event capture**: Track server-side events — `user_registered`, `user_logged_in`, `login_failed`, `api_key_created`, `file_conflict_detected`
+- **Graceful shutdown**: Flush pending events on SIGTERM/SIGINT before process exit
+- Do NOT send sensitive data (passwords, tokens, file contents) in event properties
+
+**Environment variables:**
+```
+POSTHOG_API_KEY=phc_...          — PostHog project API key
+POSTHOG_HOST=https://us.i.posthog.com  — PostHog ingest endpoint (or self-hosted URL)
+```
+
 #### 2. Today Dashboard
 
 The default view when you open the app. Reads markdown files and their YAML frontmatter to build a GTD-aware daily overview. Should feel fast and actionable — cards and lists, not a wall of text.
@@ -367,7 +393,7 @@ Focus on getting these working in order:
 ### Tiptap Extensions to Install
 
 ```bash
-npm install @tiptap/react @tiptap/starter-kit @tiptap/extension-task-list @tiptap/extension-task-item @tiptap/extension-link @tiptap/extension-image @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-cell @tiptap/extension-table-header @tiptap/extension-code-block-lowlight @tiptap/extension-placeholder @tiptap/extension-typography @tiptap/extension-character-count @tiptap/extension-highlight @tiptap/extension-underline lowlight
+npm install posthog-js posthog-node @tiptap/react @tiptap/starter-kit @tiptap/extension-task-list @tiptap/extension-task-item @tiptap/extension-link @tiptap/extension-image @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-cell @tiptap/extension-table-header @tiptap/extension-code-block-lowlight @tiptap/extension-placeholder @tiptap/extension-typography @tiptap/extension-character-count @tiptap/extension-highlight @tiptap/extension-underline lowlight
 ```
 
 Custom extensions to build:
