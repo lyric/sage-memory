@@ -20,6 +20,11 @@
   - Tags: plugins, extensions, cleanup
   - Added: 2026-02-13 (during: gtd-mo-core)
 
+- **telegram-polling-auto-recover** — Telegram polling should auto-recover from getUpdates timeout errors instead of stopping permanently
+  - Tags: telegram, reliability, polling
+  - Added: 2026-02-17
+  - Notes: The grammyjs runner has a `maxRetryTime` of 5 minutes. When it gives up, the resulting timeout error ("Request to 'getUpdates' timed out after 500 seconds") isn't recognized as recoverable by `isRecoverableTelegramNetworkError` / `isNetworkRelatedError` in `src/telegram/network-errors.ts`, so `monitorTelegramProvider` in `src/telegram/monitor.ts` treats it as a permanent failure and stops the channel. Fix: (1) classify timeout-class errors from the runner as recoverable so the outer retry loop retries, and (2) consider increasing or removing the runner's `maxRetryTime` ceiling.
+
 ## Parked
 
 ## Promoted
