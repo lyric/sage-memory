@@ -92,7 +92,28 @@ Source: openclaw/openclaw GitHub issues + local upstream clone + pi-mono
 
 ## Upstream Commits (server-related, recent 500)
 
-Key commits in upstream not yet in mo-core:
+Key commits in upstream not yet in mo-core (pulled 2026-02-19):
+
+**Security (high priority for server):**
+- `638853c6d` — sanitize sandbox env vars before docker launch
+- `5487c9ade` — sandbox env sanitization helpers + tests
+- `d51929ecb` — block ISATAP SSRF bypass via shared host/ip guard
+- `d05c8eb91` — unify SSRF hostname/ip precheck and add policy regression
+- `35016a380` / `cc29be8c9` — serialize sandbox registry mutations (race condition fixes)
+
+**Daemon/service refactoring:**
+- `1b46f7d0b` — simplify gateway service backend delegates
+- `70900feaa` — share service arg types across backends
+- `9fd810e3a` — share systemd service action flow
+- `111a24d55` — scope token drift warnings
+- `11fcbadec` — guard preferred node selection
+
+**Docker:**
+- `466a1e1cd` — include `docker-compose.extra.yml` in helper commands
+- `7255c20dd` — harden docker-setup mount validation
+- `ca43efa96` — force npm install path in smoke docker tests
+
+**Older (pre-Feb 2):**
 - Docker fixes: gateway CMD, `--bind lan` removal, cloud-compatible flags, typing fixes
 - systemd: legacy service migration, ExecStart whitespace fix
 - Docs: Fly private deployment, Northflank guide, Oracle Cloud guide, Docker setup clarification
