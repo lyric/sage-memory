@@ -15,6 +15,8 @@
 - **hosted-server-ready** — Make mo-core ready to run as a hosted server (multi-tenant, cloud deployment, not just local/self-hosted gateway)
   - Tags: infra, hosting, deployment
   - Added: 2026-02-10
+  - Notes: Review upstream openclaw/openclaw issues for headless/server-related bugs and feature requests — selectively pull relevant ones. Known upstream issues to review: #11805 (gateway install/status fails on headless servers due to systemctl --user requiring D-Bus), and any others tagged with server/headless/VPS/EC2/systemd.
+  - Upstream review process: `upstream` and `openclaw` remotes removed from mo-core (2026-02-19) to prevent accidental pulls overwriting Mo rebrand. To review upstream: browse GitHub (openclaw/openclaw), use `gh` CLI, or read the local clone at `~/src/other/upstream/openclaw`. Never re-add upstream as a remote — cherry-pick by reading diffs and manually applying.
 
 - **review-plugins-extensions** — Review Mo plugins and extensions — remove unused ones, review Pi marketplace for useful additions
   - Tags: plugins, extensions, cleanup
