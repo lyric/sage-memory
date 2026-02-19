@@ -18,6 +18,12 @@
   - Upstream review process: `upstream` and `openclaw` remotes removed from mo-core (2026-02-19) to prevent accidental pulls overwriting Mo rebrand. To review upstream: browse GitHub (openclaw/openclaw), use `gh` CLI, or read the local clone at `~/src/other/upstream/openclaw`. Never re-add upstream as a remote — cherry-pick by reading diffs and manually applying.
   - Detailed research: see `research/server-deploy-upstream-issues.md`
 
+- **multi-tenant-isolation** — Implement per-agent isolation for multi-tenant deployments (message scoping, cron scoping, session visibility, memory isolation, media isolation, RBAC)
+  - Tags: security, multi-tenant, isolation
+  - Added: 2026-02-19
+  - Depends on: hosted-server-ready
+  - Detailed research: see `research/multi-tenant-upstream-issues.md`
+
 - **review-plugins-extensions** — Review Mo plugins and extensions — remove unused ones, review Pi marketplace for useful additions
   - Tags: plugins, extensions, cleanup
   - Added: 2026-02-13 (during: gtd-mo-core)
